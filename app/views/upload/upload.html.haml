@@ -1,0 +1,41 @@
+.row
+  .span6
+    %h3 Maasto / vaikeus
+    %table{:class => "table table-hover"}
+      %th 
+      - @ratings.each do |tr|
+        %th{:style => "text-align: center"}        
+          = tr
+      - @ratings.each do |tr|
+        %tr
+        %th{:style => "text-align: center"}
+          = tr
+          - @ratings.each do |dr|
+            - color = 0
+            - color = (255-(35+(@m[tr][dr]*1.0)/@maxdt*220).round).abs
+            - color = 255 if @m[tr][dr] == 0
+            %td{:class => "span1", :style => "text-align: center;background: rgb(255,#{color},#{color})"}
+              = "#{@m[tr][dr]}\t"
+  .span6
+    %h3 Maat
+    %table{:class => "table table-hover"}
+      - @countries.each do |country|
+        %tr
+          %th
+            = country[0]
+          %td
+            = country[1]
+
+.row
+  .span6
+    %h3 Löydöt attribuuteittain
+    %table{:class => "table table-hover"}
+      - @attributes.each do |country|
+        %tr
+          %td
+            = country[0]
+          %td
+            = country[1]
+.row
+  .span12
+    %img{ :src=>"basura.svg" }

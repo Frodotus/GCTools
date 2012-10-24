@@ -1,0 +1,2 @@
+module GeocheckerHelper
+end

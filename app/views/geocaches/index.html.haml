@@ -1,0 +1,21 @@
+%h1 Listing geocaches
+
+%table
+  %tr
+    %th Name
+    %th Code
+    %th
+    %th
+    %th
+
+  - @geocaches.each do |geocach|
+    %tr
+      %td= geocach.name
+      %td= geocach.code
+      %td= link_to 'Show', geocach
+      %td= link_to 'Edit', edit_geocach_path(geocach)
+      %td= link_to 'Destroy', geocach, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Geocache', new_geocach_path

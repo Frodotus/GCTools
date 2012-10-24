@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @geocach.name
+%p
+  %b Code:
+  = @geocach.code
+
+= link_to 'Edit', edit_geocach_path(@geocach)
+\|
+= link_to 'Back', geocaches_path
