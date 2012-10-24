@@ -18,10 +18,11 @@ class UploadController < ApplicationController
     #puts wpt
     #}
     doc.remove_namespaces!
-    i = dif = ter = 0
+    dif = ter = 0
     @ratings = '1','1.5','2','2.5','3','3.5','4','4.5','5'
     @countries = {}
     @maxdt = 0
+    @ftf = []
     @attributes = {}
     @m = {}
     @ratings.each{|tr|
@@ -39,20 +40,26 @@ class UploadController < ApplicationController
       end      
     }
     doc.xpath("//wpt").each { |wpt|
-      i = i + 1
-      name = wpt.search("name").first.text
-      difficulty = wpt.xpath('cache/difficulty').text
-      terrain = wpt.xpath('cache/terrain').text
-      dif = dif + difficulty.to_f
-      ter = ter + terrain.to_f  
-      if(@m[terrain][difficulty])
-        @m[terrain][difficulty] = @m[terrain][difficulty] + 1
+      cache = {}
+      cache['id'] = wpt.search("name").first.text
+      cache['name'] = wpt.xpath("cache/name").text
+      cache['difficulty'] = wpt.xpath('cache/difficulty').text
+      cache['terrain'] = wpt.xpath('cache/terrain').text
+      cache['log'] = wpt.xpath('cache/logs/log').text
+      cache['ftf'] = cache['log'].split("\n")[4].match('FTF')
+      @ftf << cache if cache['ftf']
+      
+      dif = dif + cache['difficulty'].to_f
+      ter = ter + cache['terrain'].to_f  
+      if(@m[cache['terrain']][cache['difficulty']])
+        @m[cache['terrain']][cache['difficulty']] = @m[cache['terrain']][cache['difficulty']] + 1
       else
-        @m[terrain][difficulty] = 1
+        @m[cache['terrain']][cache['difficulty']] = 1
       end
-      if @m[terrain][difficulty] > @maxdt
-        @maxdt = @m[terrain][difficulty]
+      if @m[cache['terrain']][cache['difficulty']] > @maxdt
+        @maxdt = @m[cache['terrain']][cache['difficulty']]
       end
+
   country = wpt.xpath('cache/country').text
   if(@countries[country])
     @countries[country] = @countries[country] + 1

@@ -36,6 +36,18 @@
             = country[0]
           %td
             = country[1]
-=#.row
-=#  .span12
-=#    %img{ :src=>"basura.svg" }
+  .span6
+    %h3 FTF Löydöt
+    =# @ftf.size
+    = @ftfs
+    %table{:class => "table table-hover"}
+      - i = 0
+      - @ftf.each do |cache|
+        - i = i + 1
+        %tr
+          %td
+            = i
+          %td
+            = cache['id'].html_safe
+          %td
+            = cache['name'].html_safe
