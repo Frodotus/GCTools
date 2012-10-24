@@ -1,19 +1,21 @@
 = link_to "GCTools", root_path, :class => 'brand'
 %ul.nav
+  =#%li
+  =#  = link_to 'Geochekkeri', '/geochecker'
+  =#- if user_signed_in?
+  =#  %li
+  =#    = link_to 'Kirjaudu ulos', destroy_user_session_path, :method=>'delete'
+  =#- else
+  =#  %li
+  =#    = link_to 'Kirjaudu', new_user_session_path
+  =#- if user_signed_in?
+  =#  %li
+  =#    = link_to 'Omat tiedot', edit_user_registration_path
+  =#  - if current_user.has_role? :admin
+  =#    %li
+  =#      = link_to 'Admin', users_path
+  =#- else
+  =#  %li
+  =#    = link_to 'Rekisteröidy', new_user_registration_path
   %li
-    = link_to 'Geochekkeri', '/geochecker'
-  - if user_signed_in?
-    %li
-      = link_to 'Kirjaudu ulos', destroy_user_session_path, :method=>'delete'
-  - else
-    %li
-      = link_to 'Kirjaudu', new_user_session_path
-  - if user_signed_in?
-    %li
-      = link_to 'Omat tiedot', edit_user_registration_path
-    - if current_user.has_role? :admin
-      %li
-        = link_to 'Admin', users_path
-  - else
-    %li
-      = link_to 'Rekisteröidy', new_user_registration_path
+    = link_to 'Generoi tilastot', upload_path
