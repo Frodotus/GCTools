@@ -1,0 +1,14 @@
+.DS_Store
+.bundle
+.idea
+.rvmrc
+.vagrant
+db/*.sqlite3
+log/*.log
+tmp/
+dump/
+puppet
+backups
+vendor/bundle
+public/VERSION.txt
+._*
