@@ -30,3 +30,6 @@ gem "cancan", ">= 1.6.8"
 gem "rolify", ">= 3.2.0"
 gem "therubyracer", ">= 0.10.2", :group => :assets, :platform => :ruby
 gem "nokogiri"
+gem "geokit"
+gem "rmagick", "2.12.0", :require => 'RMagick'
+gem "googlecharts"

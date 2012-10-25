@@ -1,7 +1,7 @@
 .row
   .span6
-    %h3 Maasto / vaikeus
-    %table{:class => "table table-hover"}
+    %h3 Maasto / vaikeus  
+    %table{:class => "table table-bordered"}
       %th 
       - @ratings.each do |tr|
         %th{:style => "text-align: center"}        
@@ -18,7 +18,7 @@
               = "#{@m[tr][dr]}\t"
   .span6
     %h3 Maat
-    %table{:class => "table table-hover"}
+    %table{:class => "table table-bordered table-condensed table-striped"}
       - @countries.each do |country|
         %tr
           %th
@@ -28,8 +28,13 @@
 
 .row
   .span6
+    %img{:src=>"/charts/cache_types_pie.png?#{Time.now}", :class=>"img-polaroid" }
+  .span6
+    %img{:src=>"/charts/cache_types_pie.png?#{Time.now}", :class=>"img-polaroid" }
+.row
+  .span6
     %h3 Löydöt attribuuteittain
-    %table{:class => "table table-hover"}
+    %table{:class => "table table-bordered table-condensed table-striped"}
       - @attributes.each do |country|
         %tr
           %td
@@ -40,7 +45,7 @@
     %h3 FTF Löydöt
     =# @ftf.size
     = @ftfs
-    %table{:class => "table table-hover"}
+    %table{:class => "table table-bordered table-condensed table-striped"}
       - i = 0
       - @ftf.each do |cache|
         - i = i + 1
@@ -48,6 +53,11 @@
           %td
             = i
           %td
-            = cache['id'].html_safe
+            %a{:href=>"http://coord.info/#{cache['id']}", :target=>"_blank"}
+              = cache['id'].html_safe
           %td
-            = cache['name'].html_safe
+            %a{:href=>"http://coord.info/#{cache['id']}", :target=>"_blank"}
+              = cache['name'].html_safe
+          %td
+            = cache['dist'].round(1)
+            km

@@ -10,6 +10,8 @@ Gctools::Application.routes.draw do
   match "geochecker" => "geochecker#index"
   match "upload" => "upload#index"
   match "uploadgpx" => "upload#upload"
+  match "img" => "upload#img"
+  match "charts/cache_types_pie" => "chart#cache_types_pie"
   devise_for :users
   resources :users, :only => [:show, :index]
 end

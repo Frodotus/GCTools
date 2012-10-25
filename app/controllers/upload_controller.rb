@@ -1,10 +1,12 @@
 require 'nokogiri'
 require 'open-uri'
-require 'matrix'
+require 'googlecharts'
+include GeoKit
+
 class UploadController < ApplicationController
   def index  
   end
-  
+
   def upload
    data = ""
    if params[:gpx]
@@ -20,6 +22,7 @@ class UploadController < ApplicationController
     doc.remove_namespaces!
     dif = ter = 0
     @ratings = '1','1.5','2','2.5','3','3.5','4','4.5','5'
+    home_loc=LatLng.new(62.2341133,25.8164888)
     @countries = {}
     @maxdt = 0
     @ftf = []
@@ -47,6 +50,9 @@ class UploadController < ApplicationController
       cache['terrain'] = wpt.xpath('cache/terrain').text
       cache['log'] = wpt.xpath('cache/logs/log').text
       cache['ftf'] = cache['log'].split("\n")[4].match('FTF')
+      cache['loc'] = LatLng.new(wpt["lat"],wpt["lon"])
+      cache['dist'] = home_loc.distance_to(cache['loc'])
+
       @ftf << cache if cache['ftf']
       
       dif = dif + cache['difficulty'].to_f
@@ -75,6 +81,7 @@ class UploadController < ApplicationController
     #    puts k;
     #  } 
     #} 
+    #@cod = MultiGeocoder.geocode('vainolantie 25, 40420 Jyska, Finland')
     
    end
 
