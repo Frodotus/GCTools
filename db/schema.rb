@@ -11,13 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120920104356) do
+ActiveRecord::Schema.define(:version => 20121026094523) do
 
   create_table "geocaches", :force => true do |t|
     t.string   "name"
     t.string   "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+    t.integer  "type_id"
+    t.integer  "country_id"
+    t.integer  "log_id"
+    t.decimal  "difficulty",        :precision => 2,  :scale => 1
+    t.decimal  "terrain",           :precision => 2,  :scale => 1
+    t.boolean  "ftf"
+    t.decimal  "lon",               :precision => 16, :scale => 13
+    t.decimal  "lat",               :precision => 16, :scale => 13
+    t.string   "placed_by"
+    t.integer  "owner_id"
+    t.integer  "container_type_id"
   end
 
   create_table "roles", :force => true do |t|
