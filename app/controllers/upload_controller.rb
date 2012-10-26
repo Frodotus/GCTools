@@ -37,14 +37,6 @@ class UploadController < ApplicationController
        @m[tr][dr] = 0
      } 
     }
-    doc.xpath('//attribute').each{|attribute|
-      attr_name = "#{attribute['id']}-#{attribute['inc']}"
-      if @attributes[attr_name] 
-        @attributes[attr_name] = @attributes[attr_name]+1
-      else
-        @attributes[attr_name] = 1
-      end      
-    }
     doc.xpath("//wpt").each { |wpt|
       cache = Geocache.new
       cache.code = wpt.search("name").first.text
@@ -66,6 +58,20 @@ class UploadController < ApplicationController
       }
    end
 
+    doc.xpath('//attribute').each{|attribute|
+        if @attributes["#{attribute['id']}-#{attribute['inc']}"] 
+          @attributes["#{attribute['id']}-#{attribute['inc']}"] = @attributes["#{attribute['id']}-#{attribute['inc']}"]+1
+        else
+          @attributes["#{attribute['id']}-#{attribute['inc']}"] = 1
+        end      
+    }
+    @attributes = @attributes.sort {|a,b| b[1] <=> a[1]} 
+    @attributes.each{|attr|
+      uca = UserCacheAttribute.new
+      uca.code = attr[0]
+      uca.count = attr[1]
+      uca.save
+   }
   end
   
   def stats
@@ -86,7 +92,6 @@ class UploadController < ApplicationController
      } 
     }
     Geocache.all.each {|cache|
-      p cache
       @ftf << cache if cache.ftf
       dif = dif + cache.difficulty
       ter = ter + cache.terrain
@@ -95,7 +100,6 @@ class UploadController < ApplicationController
       else
         @countries[cache.country_id] = 1
       end
-
       if(@dt_table["#{cache.terrain}"]["#{cache.difficulty}"])
         @dt_table["#{cache.terrain}"]["#{cache.difficulty}"] = @dt_table["#{cache.terrain}"]["#{cache.difficulty}"] + 1
       else
@@ -105,12 +109,15 @@ class UploadController < ApplicationController
         @maxdt = @dt_table["#{cache.terrain}"]["#{cache.difficulty}"]
       end  
     }
+      UserCacheAttribute.all.each{|attr|
+        @attributes[attr.code] = attr.count
+      }
     @countries = @countries.sort {|a,b| b[1] <=> a[1]} 
     @countries_js = ""
     @countries.each do |country|      
       @countries_js = "#{@countries_js},['#{country[0]}', #{country[1]}]" if country[0]
     end
-#    @attributes = @attributes.sort {|a,b| b[1] <=> a[1]} 
+    @attributes = @attributes.sort {|a,b| b[1] <=> a[1]} 
   end
 
 end
