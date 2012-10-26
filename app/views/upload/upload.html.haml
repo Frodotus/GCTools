@@ -35,12 +35,12 @@
   .span6
     %h3 Löydöt attribuuteittain
     %table{:class => "table table-bordered table-condensed table-striped"}
-      - @attributes.each do |country|
+      - @attributes.each_slice(7) do |row|
         %tr
-          %td
-            %img{:src=>"/images/attributes/#{country[0]}.gif"}
-          %td
-            = country[1]
+          - row.each do |attribute|
+            %td
+              %img{:src=>"/images/attributes/#{attribute[0]}.gif"}
+              = attribute[1]
   .span6
     %h3 FTF Löydöt
     =# @ftf.size
@@ -61,13 +61,3 @@
           %td
             = cache['dist'].round(1)
             km
-.row
-  .span6
-    %h3 Löydöt attribuuteittain
-    %table{:class => "table table-bordered table-condensed table-striped"}
-      - @attributes.each do |country|
-        %tr
-          %td
-            = country[0]
-          %td
-            = country[1]
