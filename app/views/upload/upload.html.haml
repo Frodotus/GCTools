@@ -53,6 +53,8 @@
           %td
             = i
           %td
+            %img{:src => "images/WptTypes/#{cache['type']}.gif", :style => "width: 75%"}
+          %td
             %a{:href=>"http://coord.info/#{cache['id']}", :target=>"_blank"}
               = cache['id'].html_safe
           %td
@@ -61,3 +63,5 @@
           %td
             = cache['dist'].round(1)
             km
+          %td
+            = cache['country'].html_safe
