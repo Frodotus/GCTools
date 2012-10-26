@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026094523) do
+ActiveRecord::Schema.define(:version => 20121026130743) do
 
   create_table "geocaches", :force => true do |t|
     t.string   "name"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(:version => 20121026094523) do
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
     t.integer  "type_id"
-    t.integer  "country_id"
     t.integer  "log_id"
     t.decimal  "difficulty",        :precision => 2,  :scale => 1
     t.decimal  "terrain",           :precision => 2,  :scale => 1
@@ -29,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20121026094523) do
     t.string   "placed_by"
     t.integer  "owner_id"
     t.integer  "container_type_id"
+    t.string   "country_id"
   end
 
   create_table "roles", :force => true do |t|

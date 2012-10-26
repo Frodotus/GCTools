@@ -1,0 +1,87 @@
+- content_for(:head) do
+  %script{:type=>'text/javascript', :src=>'https://www.google.com/jsapi'}
+  :javascript
+    google.load('visualization', '1', {'packages': ['geochart']});
+    google.setOnLoadCallback(drawRegionsMap);
+
+    function drawRegionsMap() {
+      var data = google.visualization.arrayToDataTable([
+        ['Country', 'Found geocaches']
+        #{@countries_js}
+      ]);
+
+      var options = {region: '150'};
+      //, colorAxis : {colors : ['#BBFFBB','#AAFFAA','#99FF99','#88FF88','#77FF77','#66FF66','#55FF55']}};
+
+      var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    };
+.row
+  .span12
+  %div{:id=>"chart_div", :style=>"height: 500px; width: 800px;"}
+.row
+  .span6
+    %h3 Maasto / vaikeus  
+    %table{:class => "table table-bordered"}
+      %th 
+      - @ratings.each do |tr|
+        %th{:style => "text-align: center"}        
+          = tr
+      - @ratings.each do |tr|
+        %tr
+        %th{:style => "text-align: center"}
+          = tr
+          - @ratings.each do |dr|
+            - color = 0
+            - color = (255-(35+(@dt_table[tr][dr]*1.0)/@maxdt*220).round).abs
+            - color = 255 if @dt_table[tr][dr] == 0
+            %td{:class => "span1", :style => "text-align: center;background: rgb(255,#{color},#{color})"}
+              = "#{@dt_table[tr][dr]}\t"
+  .span6
+    %h3 Maat
+    %table{:class => "table table-bordered table-condensed table-striped"}
+      - @countries.each do |country|
+        %tr
+          %th
+            = country[0]
+          %td
+            = country[1]
+
+.row
+  .span6
+    %img{:src=>"/charts/cache_types_pie.png?#{Time.now}", :class=>"img-polaroid" }
+  .span6
+    %img{:src=>"/charts/cache_types_pie.png?#{Time.now}", :class=>"img-polaroid" }
+.row
+  .span6
+    %h3 Löydöt attribuuteittain
+    %table{:class => "table table-bordered table-condensed table-striped"}
+      - @attributes.each_slice(7) do |row|
+        %tr
+          - row.each do |attribute|
+            %td
+              %img{:src=>"/images/attributes/#{attribute[0]}.gif"}
+              = attribute[1]
+  .span6
+    %h3 FTF Löydöt
+    = @ftfs
+    %table{:class => "table table-bordered table-condensed table-striped"}
+      - i = 0
+      - @ftf.each do |cache|
+        - i = i + 1
+        %tr
+          %td
+            = i
+          %td
+            %img{:src => "images/WptTypes/#{cache['type_id']}.gif"}
+          %td
+            %a{:href=>"http://coord.info/#{cache['id']}", :target=>"_blank"}
+              = cache['code']
+          %td
+            %a{:href=>"http://coord.info/#{cache['id']}", :target=>"_blank"}
+              = cache['name'].html_safe
+          %td
+            =# cache['dist'].round(1)
+            =#km
+          %td
+            =# cache['country'].html_safe
