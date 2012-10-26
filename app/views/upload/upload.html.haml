@@ -38,7 +38,7 @@
       - @attributes.each do |country|
         %tr
           %td
-            = country[0]
+            %img{:src=>"/images/attributes/#{country[0]}.gif"}
           %td
             = country[1]
   .span6
@@ -61,3 +61,13 @@
           %td
             = cache['dist'].round(1)
             km
+.row
+  .span6
+    %h3 Löydöt attribuuteittain
+    %table{:class => "table table-bordered table-condensed table-striped"}
+      - @attributes.each do |country|
+        %tr
+          %td
+            = country[0]
+          %td
+            = country[1]

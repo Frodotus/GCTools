@@ -26,6 +26,7 @@ class UploadController < ApplicationController
     @countries = {}
     @maxdt = 0
     @ftf = []
+    @albhabets = {}
     @attributes = {}
     @m = {}
     @ratings.each{|tr|
@@ -35,7 +36,7 @@ class UploadController < ApplicationController
      } 
     }
     doc.xpath('//attribute').each{|attribute|
-      attr_name = "#{attribute.text} #{attribute['id']}-#{attribute['inc']}"
+      attr_name = "#{attribute['id']}-#{attribute['inc']}"
       if @attributes[attr_name] 
         @attributes[attr_name] = @attributes[attr_name]+1
       else
@@ -52,6 +53,10 @@ class UploadController < ApplicationController
       cache['ftf'] = cache['log'].split("\n")[4].match('FTF')
       cache['loc'] = LatLng.new(wpt["lat"],wpt["lon"])
       cache['dist'] = home_loc.distance_to(cache['loc'])
+
+      if(!@albhabets[cache['name'][0]])
+        @albhabets[cache['name'][0]] = cache['name']
+      end
 
       @ftf << cache if cache['ftf']
       
